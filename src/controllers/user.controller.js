@@ -92,3 +92,21 @@ export async function getUserProfilebyId(req, res) {
     res.status(500).send(err.message);
   }
 }
+
+export async function getRanking(req,res){
+
+  try{
+    const rankingSelection = await db.query(`
+    SELECT users.id as id, users.name as name , 
+    COUNT(urls."userId") AS "linksCount", 
+    SUM(urls."viewCount") AS "visitCount"
+    FROM users
+    JOIN urls ON urls."userId" = users.id 
+    ORDER BY "viewCount" AS "visitCount" DESC 
+    LIMIT 10;
+  `)
+  res.status(200).send(rankingSelection.rows);
+  } catch(err){
+    res.status(500).send(err.message);
+  }
+}
