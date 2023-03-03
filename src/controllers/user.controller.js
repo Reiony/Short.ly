@@ -51,7 +51,6 @@ export async function signInUser(req, res) {
 
   } catch (err) {
     res.status(500).send(err.message);
+    return;
   }
-
-  res.sendStatus(200);
 }

@@ -1,11 +1,14 @@
 import { Router } from "express";
+import { shortenUrl } from "../controllers/url.controller";
+import { authValidation } from "../middlewares/authValidation.middleware";
 
 
-const router = Router();
+const urlRouter = Router();
 
-export default router;
-/* urlRouter.post("/urls/shorten", )
-urlRouter.post("/urls/:id",)
+urlRouter.post("/urls/shorten", authValidation, shortenUrl)
+/* urlRouter.post("/urls/:id",)
 urlRouter.get("/urls/open/:shortUrl",)
 urlRouter.delete("/urls/:id",) 
-urlRouter.get("/ranking",)*/
+urlRouter.get("/ranking",) */
+
+export default urlRouter;
