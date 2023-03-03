@@ -51,7 +51,7 @@ export async function getShortenedUrl(req, res) {
   try {
     const shUrl = await db.query(
       `
-    SELECT id, url, viewCount
+    SELECT id, url, "viewCount"
     FROM urls 
     WHERE "shortUrl"=$1`,
       [shortenedUrl]
@@ -61,7 +61,7 @@ export async function getShortenedUrl(req, res) {
     }
     await db.query(`
     UPDATE urls 
-    SET viewCount = viewCount + 1 
+    SET "viewCount" = "viewCount" + 1 
     WHERE id=$1`, 
     [
       shUrl.rows[0].id
