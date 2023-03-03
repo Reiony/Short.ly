@@ -76,7 +76,9 @@ export async function getShortenedUrl(req, res) {
 
 export async function deleteUrl(req, res) {
   const { id } = req.params;
-  const { session } = res.locals.session;
+  console.log(id);
+  const session  = res.locals.session;
+  console.log(session);
 
   try {
     const Search = await db.query(`SELECT * from urls WHERE id=$1`, [id]);
