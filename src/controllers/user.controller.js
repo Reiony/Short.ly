@@ -69,7 +69,7 @@ export async function getUserProfilebyId(req, res) {
 
     const urlsfromUserLoggedIn = await db.query(
       `
-    SELECT id, "shortUrl", url, "viewCount"
+    SELECT id, "shortUrl", url, "viewCount" as "visitCount"
     FROM urls 
     WHERE urls."userId"=$1;`,
       [session.rows[0].userId]
@@ -85,7 +85,7 @@ export async function getUserProfilebyId(req, res) {
     res.send({
       id: username.rows[0].id,
       name: username.rows[0].name,
-      viewCount: viewCounter.rows[0] || 0 ,
+      visitCount: viewCounter.rows[0] || 0 ,
       shortenedUrls: urlsfromUserLoggedIn.rows,
     })
   } catch (err) {
