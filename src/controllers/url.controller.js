@@ -61,10 +61,10 @@ export async function getShortenedUrl(req, res) {
     }
     await db.query(`
     UPDATE urls 
-    SET "viewCount" = "viewCount" + 1 
-    WHERE id=$1`, 
+    SET "viewCount" = $1
+    WHERE id=$2`, 
     [
-      shUrl.rows[0].id
+    shUrl.rows[0].viewCount+1,shUrl.rows[0].id
     ]);
     res.redirect(shUrl.rows[0].url);
   } catch (err) {
