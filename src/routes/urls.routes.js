@@ -11,6 +11,5 @@ urlRouter.post("/urls/shorten", authValidation, validateSchema(urlSchema), short
 urlRouter.get("/urls/:id", getUrlDetails)
 urlRouter.get("/urls/open/:shortUrl", getShortenedUrl)
 urlRouter.delete("/urls/:id", authValidation, deleteUrl);
-/* urlRouter.get("/ranking",)  */
 
 export default urlRouter;
