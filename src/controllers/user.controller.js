@@ -97,12 +97,13 @@ export async function getRanking(req,res){
 
   try{
     const rankingSelection = await db.query(`
-    SELECT users.id as id, users.name as name , 
+    SELECT users.id AS id, users.name AS name, 
     COUNT(urls."userId") AS "linksCount", 
     SUM(urls."viewCount") AS "visitCount"
     FROM users
-    JOIN urls ON urls."userId" = users.id 
-    ORDER BY "viewCount" AS "visitCount" DESC 
+    LEFT JOIN urls ON urls."userId" = users.id 
+    GROUP BY users.id
+    ORDER BY "visitCount" DESC 
     LIMIT 10;
   `)
   res.status(200).send(rankingSelection.rows);
