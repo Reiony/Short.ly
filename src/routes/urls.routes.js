@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { shortenUrl } from "../controllers/url.controller";
-import { authValidation } from "../middlewares/authValidation.middleware";
+import { shortenUrl } from "../controllers/url.controller.js";
+import { authValidation } from "../middlewares/authValidation.middleware.js";
 
 
 const urlRouter = Router();
