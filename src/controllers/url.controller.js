@@ -56,11 +56,35 @@ export async function getShortenedUrl(req, res) {
     WHERE "shortUrl"=$1`,
       [shortenedUrl]
     );
-    if (shUrl.rowCount===0){
-        return res.sendStatus(404);
+    if (shUrl.rowCount === 0) {
+      return res.sendStatus(404);
     }
-    await db.query(`UPDATE urls SET viewCount = viewCount + 1 WHERE id=$1`,[shUrl.rows[0].id])
+    await db.query(`UPDATE urls SET viewCount = viewCount + 1 WHERE id=$1`, [
+      shUrl.rows[0].id,
+    ]);
     res.redirect(shUrl.rows[0].url);
+  } catch (err) {
+    res.status(500).send(err.message);
+    return;
+  }
+}
+
+export async function deleteUrl(req, res) {
+  const { id } = req.params;
+  const { session } = res.locals.session;
+
+  try {
+    const Search = await db.query(`SELECT * from urls WHERE id=$1`, [id]);
+    if (Search.rowCount === 0) {
+      return res.sendStatus(404);
+    }
+
+    if (Search.rows[0].userId !== session.rows[0].userId) {
+      return res.sendStatus(401);
+    }
+
+    await db.query(`DELETE FROM urls WHERE id =$1;`, [id]);
+    res.sendStatus(204);
   } catch (err) {
     res.status(500).send(err.message);
     return;
