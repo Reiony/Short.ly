@@ -46,26 +46,27 @@ export async function getUrlDetails(req, res) {
 }
 
 export async function getShortenedUrl(req, res) {
-  const { shortenedUrl } = req.params;
-
+  const { shortUrl } = req.params;
+  console.log(shortUrl);
   try {
     const shUrl = await db.query(
       `
-    SELECT id, url, "viewCount"
+    SELECT *
     FROM urls 
     WHERE "shortUrl"=$1`,
-      [shortenedUrl]
+      [shortUrl]
     );
+    console.log(shUrl);
     if (shUrl.rowCount === 0) {
       return res.sendStatus(404);
     }
-    await db.query(`
+    await db.query(
+      `
     UPDATE urls 
     SET "viewCount" = $1
-    WHERE id=$2`, 
-    [
-    shUrl.rows[0].viewCount+1,shUrl.rows[0].id
-    ]);
+    WHERE id=$2`,
+      [shUrl.rows[0].viewCount + 1, shUrl.rows[0].id]
+    );
     res.redirect(shUrl.rows[0].url);
   } catch (err) {
     res.status(500).send(err.message);
