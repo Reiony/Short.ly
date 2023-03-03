@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { db } from "../database/database.js";
+
 export async function shortenUrl(req, res) {
   const { url } = req.body;
 
@@ -14,7 +15,7 @@ export async function shortenUrl(req, res) {
       [url, shortUrl, session.rows[0].userId]
     );
 
-    const shortUrlwithId = await connection.query(
+    const shortUrlwithId = await db.query(
       `SELECT id, "shortUrl" FROM urls WHERE "shortUrl"=$1;`,
       [shortUrl]
     );
