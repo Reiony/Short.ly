@@ -51,7 +51,7 @@ export async function getShortenedUrl(req, res) {
   try {
     const shUrl = await db.query(
       `
-    SELECT * 
+    SELECT id, url, "viewCount" AS "visitCount" 
     FROM urls 
     WHERE "shortUrl"=$1`,
       [shortenedUrl]
