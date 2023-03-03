@@ -83,8 +83,8 @@ export async function getUserProfilebyId(req, res) {
     );
 
     res.send({
-      id: session.rows[0].userId,
-      name: username.rows[0],
+      id: username.rows[0].userId,
+      name: username.rows[0].name,
       viewCount: viewCounter.rows[0] || 0 ,
       shortenedUrls: urlsfromUserLoggedIn.rows,
     })
